@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.a60days.ui.theme.SixtyDaysTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,24 +83,22 @@ fun HabitCard(habit: HabitUi, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    SixtyDaysTheme {
-        HomeScreen(
-            habits = listOf(
-                HabitUi(
-                    id = 1,
-                    name = "Read a book",
-                    description = "Read for at least 15 minutes every day.",
-                    completedDays = 25,
-                    totalDays = 60
-                ),
-                HabitUi(
-                    id = 2,
-                    name = "Exercise",
-                    description = "Do a 30-minute workout session.",
-                    completedDays = 45,
-                    totalDays = 60
-                )
-            ), onAddHabit = {}, onHabitClick = {}, onSettings = {}
-        )
-    }
+    HomeScreen(
+        habits = listOf(
+            HabitUi(
+                id = 1,
+                name = "Read a book",
+                description = "Read for at least 15 minutes every day.",
+                completedDays = 25,
+                totalDays = 60
+            ),
+            HabitUi(
+                id = 2,
+                name = "Exercise",
+                description = "Do a 30-minute workout session.",
+                completedDays = 45,
+                totalDays = 60
+            )
+        ), onAddHabit = {}, onHabitClick = {}, onSettings = {}
+    )
 }
