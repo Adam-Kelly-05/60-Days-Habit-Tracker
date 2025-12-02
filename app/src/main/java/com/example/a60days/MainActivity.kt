@@ -6,11 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.a60days.ui.home.HabitUi
-import com.example.a60days.ui.home.HomeScreen
+import com.example.a60days.ui.home.HomeRoute
 import com.example.a60days.ui.theme.SixtyDaysTheme
 import com.example.a60days.ui.welcome.WelcomeScreen
 
@@ -27,7 +27,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -50,26 +49,27 @@ fun SixtyDaysApp() {
         }
 
         composable("home") {
-            HomeScreen(
-                habits = listOf(
-                    HabitUi(1, "Read", "Read 20 pages", 10, 60)
-                ),
+            HomeRoute(
                 onAddHabit = { navController.navigate("add") },
-                onHabitClick = { id -> navController.navigate("edit/$id") },
-                onSettings = { navController.navigate("settings") }
+                onHabitClick = { habitId -> navController.navigate("edit/$habitId") },
+                onSettings = { navController.navigate("settings") },
+                viewModel = viewModel()
             )
         }
 
-        composable("add"){
-
+        composable("add") {
+//            AddHabitRoute(onSaved = { navController.popBackStack() })
         }
 
-        composable("edit/{habitId}") {
-
+        composable(
+            "edit/{habitId}",
+//            arguments = listOf(navArgument("habitId") { type = NavType.IntType })
+        ) {
+//            EditHabitRoute()
         }
 
         composable("settings") {
-
+            // SettingsScreen(onBack = { navController.popBackStack() })
         }
     }
 }

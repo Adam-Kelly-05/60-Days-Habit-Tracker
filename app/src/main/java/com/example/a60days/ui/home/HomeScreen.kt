@@ -25,11 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.a60days.data.Habit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    habits: List<HabitUi>,
+    habits: List<Habit>,
     onAddHabit: () -> Unit,
     onHabitClick: (Int) -> Unit,
     onSettings: () -> Unit
@@ -40,65 +41,76 @@ fun HomeScreen(
                 title = { Text("60 Days") },
                 actions = {
                     IconButton(onClick = onSettings) {
-                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Settings"
+                        )
                     }
                 }
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddHabit) {
-                Icon(Icons.Default.Add, contentDescription = "Add habit")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add Habit"
+                )
             }
         }
     ) { padding ->
         LazyColumn(
-            modifier = Modifier.padding(padding).padding(16.dp)
+            modifier = Modifier
+                .padding(padding)
+                .padding(16.dp)
         ) {
             items(habits) { habit ->
-                HabitCard(habit = habit, onClick = { onHabitClick(habit.id) })
+                HabitCard(
+                    habit = habit,
+                    onClick = { onHabitClick(habit.id) }
+                )
             }
         }
     }
 }
 
 @Composable
-fun HabitCard(habit: HabitUi, onClick: () -> Unit) {
+fun HabitCard(habit: Habit, onClick: () -> Unit) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clickable(onClick = onClick)
+            .fillMaxWidth()
+            .clickable { onClick() }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(habit.name, style = MaterialTheme.typography.titleMedium)
-            Text(habit.description)
-            Spacer(Modifier.height(8.dp))
+            Text(habit.description, style = MaterialTheme.typography.bodyMedium)
+
+            Spacer(Modifier.height(12.dp))
+
             LinearProgressIndicator(
-                progress = { habit.completedDays.toFloat() / habit.totalDays.toFloat() }
+                progress = {habit.completedDays.toFloat() / habit.totalDays.toFloat()},
+                modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(Modifier.height(4.dp))
+
+            Text("${habit.completedDays} / ${habit.totalDays} days")
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun Preview() {
+fun GreetingPreview() {
+    val sampleHabits = listOf(
+        Habit(id = 1, name = "Read for 15 minutes", description = "Read a book or an article.", completedDays = 10, totalDays = 60),
+        Habit(id = 2, name = "Morning Exercise", description = "A quick 10-minute workout.", completedDays = 35, totalDays = 60),
+        Habit(id = 3, name = "Drink 8 glasses of water", description = "Stay hydrated throughout the day.", completedDays = 58, totalDays = 60)
+    )
     HomeScreen(
-        habits = listOf(
-            HabitUi(
-                id = 1,
-                name = "Read a book",
-                description = "Read for at least 15 minutes every day.",
-                completedDays = 25,
-                totalDays = 60
-            ),
-            HabitUi(
-                id = 2,
-                name = "Exercise",
-                description = "Do a 30-minute workout session.",
-                completedDays = 45,
-                totalDays = 60
-            )
-        ), onAddHabit = {}, onHabitClick = {}, onSettings = {}
+        habits = sampleHabits,
+        onAddHabit = {},
+        onHabitClick = {},
+        onSettings = {}
     )
 }
