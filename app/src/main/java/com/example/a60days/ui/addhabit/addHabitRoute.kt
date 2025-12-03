@@ -14,25 +14,28 @@ fun AddHabitRoute(
         )
     )
 ) {
-    var name by remember { mutableStateOf(viewModel.name) }
-    var description by remember { mutableStateOf(viewModel.description) }
-    var totalDays by remember { mutableStateOf(viewModel.totalDays) }
+    var name by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var totalDays by remember { mutableStateOf("") }
 
     AddHabitScreen(
         name = name,
         description = description,
         totalDays = totalDays,
-        onNameChange = {
-            viewModel.name = it
-        },
-        onDescriptionChange = {
-            viewModel.description = it
-        },
-        onTotalDaysChange = {
-            viewModel.totalDays = it
-        },
+
+        onNameChange = { name = it },
+        onDescriptionChange = { description = it },
+        onTotalDaysChange = { totalDays = it },
+
         onSave = {
-            viewModel.saveHabit(onSaved)
+            if (name.isNotEmpty()) {
+                viewModel.saveHabit(
+                    name = name,
+                    description = description,
+                    totalDays = totalDays.toIntOrNull() ?: 0,
+                    onSaved = onSaved
+                )
+            }
         }
     )
 }
