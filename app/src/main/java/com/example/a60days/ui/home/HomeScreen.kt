@@ -173,7 +173,7 @@ fun HabitCard(habit: Habit, onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun Preview() {
     val sampleHabits = listOf(
         Habit(id = 1, name = "Read", description = "Read 15 min", completedDays = 10, totalDays = 60),
         Habit(id = 2, name = "Exercise", description = "Morning workout", completedDays = 60, totalDays = 60),

@@ -33,10 +33,8 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    SixtyDaysTheme {
-        SixtyDaysApp()
-    }
+fun Preview() {
+    SixtyDaysApp()
 }
 
 @Composable

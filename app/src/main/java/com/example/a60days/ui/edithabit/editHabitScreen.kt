@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a60days.data.Habit
 
@@ -89,4 +90,18 @@ fun EditHabitScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewEditHabitScreen() {
+    EditHabitScreen(
+        habit = Habit(
+            id = 1,
+            name = "Read a book",
+            description = "Read for 30 minutes every day.",
+            totalDays = 60,
+            completedDays = 15
+        ), onSave = { _, _, _, _ -> }, onBack = {}
+    )
 }
