@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -30,11 +31,15 @@ fun WelcomeScreen(onContinue: () -> Unit) {
         ) {
             Text(
                 text = "60 Days",
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
             )
             Text(
                 text = "Daily Habit Tracker",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
             )
             Spacer(Modifier.height(32.dp))
         }
@@ -48,7 +53,10 @@ fun WelcomeScreen(onContinue: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(onClick = onContinue) {
-                Text("Start Your Journey")
+                Text(
+                    "Start Your Journey",
+                    fontWeight = FontWeight.Bold
+                )
             }
             Spacer(Modifier.height(24.dp))
         }

@@ -1,15 +1,33 @@
 package com.example.a60days.ui.home
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a60days.data.Habit
@@ -31,7 +49,13 @@ fun HomeScreen(
                 title = { Text(
                     "60 Days",
                     style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.Bold
                 ) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White,
+                    actionIconContentColor = Color.White
+                ),
                 actions = {
                     IconButton(onClick = onSettings) {
                         Icon(
@@ -43,10 +67,15 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddHabit) {
+            FloatingActionButton(
+                onClick = onAddHabit,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = Color.White
+            ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add Habit"
+                    contentDescription = "Add Habit",
+                    modifier = Modifier.size(36.dp)
                 )
             }
         }
@@ -60,14 +89,16 @@ fun HomeScreen(
             item {
                 Text(
                     text = "Ongoing Habits",
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
             if (ongoingHabits.isEmpty()) {
                 item {
-                    Text("No ongoing habits yet.")
+                    Text("No ongoing habits yet.", color = MaterialTheme.colorScheme.primary)
                     Spacer(Modifier.height(16.dp))
                 }
             } else {
@@ -86,14 +117,17 @@ fun HomeScreen(
             item {
                 Text(
                     text = "Completed Habits",
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
             if (completedHabits.isEmpty()) {
                 item {
-                    Text("No completed habits yet.")
+                    Text("No completed habits yet.", color = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.height(16.dp))
                 }
             } else {
                 items(completedHabits) { habit ->
@@ -113,22 +147,26 @@ fun HabitCard(habit: Habit, onClick: () -> Unit) {
         modifier = Modifier
             .padding(vertical = 8.dp)
             .fillMaxWidth()
-            .clickable { onClick() }
+            .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(habit.name, style = MaterialTheme.typography.titleMedium)
-            Text(habit.description, style = MaterialTheme.typography.bodyMedium)
+            Text(habit.name, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+            Text(habit.description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
 
             Spacer(Modifier.height(12.dp))
 
             LinearProgressIndicator(
                 progress = { habit.completedDays.toFloat() / habit.totalDays.toFloat() },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                trackColor = Color.White
             )
 
             Spacer(Modifier.height(4.dp))
 
-            Text("${habit.completedDays} / ${habit.totalDays} days")
+            Text("${habit.completedDays} / ${habit.totalDays} days", color = MaterialTheme.colorScheme.primary)
         }
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -33,15 +34,22 @@ fun AddHabitScreen(
     onSave: () -> Unit
 ) {
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = {
-            Text(
-                "Add Habit",
-                style = MaterialTheme.typography.headlineLarge
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Add Habit",
+                        style = MaterialTheme.typography.headlineLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             )
-        })}
+        }
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding).padding(16.dp)
+            modifier = Modifier
+                .padding(padding)
+                .padding(16.dp)
         ) {
 
             OutlinedTextField(
@@ -71,13 +79,16 @@ fun AddHabitScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            Button(onClick = onSave, enabled = name.isNotEmpty()) {
+            Button(
+                onClick = onSave,
+                enabled = name.isNotEmpty(),
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text("Save")
             }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -92,5 +103,5 @@ fun Preview() {
         onNameChange = { name = it },
         onDescriptionChange = { description = it },
         onTotalDaysChange = { totalDays = it }
-    ) { /* save code in here */ }
+    ) {}
 }
