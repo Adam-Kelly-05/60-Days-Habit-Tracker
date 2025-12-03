@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.a60days.ui.addhabit.AddHabitRoute
 import com.example.a60days.ui.home.HomeRoute
 import com.example.a60days.ui.theme.SixtyDaysTheme
 import com.example.a60days.ui.welcome.WelcomeScreen
@@ -52,13 +53,12 @@ fun SixtyDaysApp() {
             HomeRoute(
                 onAddHabit = { navController.navigate("add") },
                 onHabitClick = { habitId -> navController.navigate("edit/$habitId") },
-                onSettings = { navController.navigate("settings") },
-                viewModel = viewModel()
+                onSettings = { navController.navigate("settings") }
             )
         }
 
         composable("add") {
-//            AddHabitRoute(onSaved = { navController.popBackStack() })
+            AddHabitRoute(onSaved = { navController.popBackStack() })
         }
 
         composable(
