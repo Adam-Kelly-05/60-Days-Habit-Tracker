@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.a60days.ui.addhabit.AddHabitRoute
+import com.example.a60days.ui.edithabit.EditHabitRoute
 import com.example.a60days.ui.home.HomeRoute
 import com.example.a60days.ui.theme.SixtyDaysTheme
 import com.example.a60days.ui.welcome.WelcomeScreen
@@ -62,11 +64,13 @@ fun SixtyDaysApp() {
         }
 
         composable(
-            "edit/{habitId}",
-//            arguments = listOf(navArgument("habitId") { type = NavType.IntType })
-        ) {
-//            EditHabitRoute()
+            route = "edit/{habitId}",
+            arguments = listOf(navArgument("habitId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("habitId")!!
+            EditHabitRoute(habitId = id, onDone = { navController.popBackStack() })
         }
+
 
         composable("settings") {
             // SettingsScreen(onBack = { navController.popBackStack() })
