@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,24 +28,33 @@ fun WelcomeScreen(onContinue: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("60 Days")
-            Text("Daily Habit Tracker")
-            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "60 Days",
+                style = MaterialTheme.typography.headlineLarge
+            )
+            Text(
+                text = "Daily Habit Tracker",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(Modifier.height(32.dp))
         }
+
         Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Button(onClick = onContinue) {
                 Text("Start Your Journey")
-                Spacer(Modifier.height(16.dp))
             }
+            Spacer(Modifier.height(24.dp))
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun Preview() {

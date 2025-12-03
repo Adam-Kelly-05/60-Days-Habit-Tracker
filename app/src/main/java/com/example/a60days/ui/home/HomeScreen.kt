@@ -1,26 +1,13 @@
 package com.example.a60days.ui.home
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,10 +22,16 @@ fun HomeScreen(
     onHabitClick: (Int) -> Unit,
     onSettings: () -> Unit
 ) {
+    val ongoingHabits = habits.filter { it.completedDays < it.totalDays }
+    val completedHabits = habits.filter { it.completedDays >= it.totalDays }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("60 Days") },
+                title = { Text(
+                    "60 Days",
+                    style = MaterialTheme.typography.headlineLarge,
+                ) },
                 actions = {
                     IconButton(onClick = onSettings) {
                         Icon(
@@ -58,16 +51,57 @@ fun HomeScreen(
             }
         }
     ) { padding ->
+
         LazyColumn(
             modifier = Modifier
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            items(habits) { habit ->
-                HabitCard(
-                    habit = habit,
-                    onClick = { onHabitClick(habit.id) }
+            item {
+                Text(
+                    text = "Ongoing Habits",
+                    style = MaterialTheme.typography.titleLarge
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            if (ongoingHabits.isEmpty()) {
+                item {
+                    Text("No ongoing habits yet.")
+                    Spacer(Modifier.height(16.dp))
+                }
+            } else {
+                items(ongoingHabits) { habit ->
+                    HabitCard(
+                        habit = habit,
+                        onClick = { onHabitClick(habit.id) }
+                    )
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            item {
+                Text(
+                    text = "Completed Habits",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            if (completedHabits.isEmpty()) {
+                item {
+                    Text("No completed habits yet.")
+                }
+            } else {
+                items(completedHabits) { habit ->
+                    HabitCard(
+                        habit = habit,
+                        onClick = { onHabitClick(habit.id) }
+                    )
+                }
             }
         }
     }
@@ -88,7 +122,7 @@ fun HabitCard(habit: Habit, onClick: () -> Unit) {
             Spacer(Modifier.height(12.dp))
 
             LinearProgressIndicator(
-                progress = {habit.completedDays.toFloat() / habit.totalDays.toFloat()},
+                progress = { habit.completedDays.toFloat() / habit.totalDays.toFloat() },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -103,9 +137,9 @@ fun HabitCard(habit: Habit, onClick: () -> Unit) {
 @Composable
 fun GreetingPreview() {
     val sampleHabits = listOf(
-        Habit(id = 1, name = "Read for 15 minutes", description = "Read a book or an article.", completedDays = 10, totalDays = 60),
-        Habit(id = 2, name = "Morning Exercise", description = "A quick 10-minute workout.", completedDays = 35, totalDays = 60),
-        Habit(id = 3, name = "Drink 8 glasses of water", description = "Stay hydrated throughout the day.", completedDays = 58, totalDays = 60)
+        Habit(id = 1, name = "Read", description = "Read 15 min", completedDays = 10, totalDays = 60),
+        Habit(id = 2, name = "Exercise", description = "Morning workout", completedDays = 60, totalDays = 60),
+        Habit(id = 3, name = "Water", description = "Drink 8 cups", completedDays = 58, totalDays = 60)
     )
     HomeScreen(
         habits = sampleHabits,
