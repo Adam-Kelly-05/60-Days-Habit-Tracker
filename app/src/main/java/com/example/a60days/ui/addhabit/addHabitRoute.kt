@@ -8,6 +8,8 @@ import com.example.a60days.SixtyDaysApplication
 @Composable
 fun AddHabitRoute(
     onSaved: () -> Unit,
+    onTitleClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     viewModel: AddHabitViewModel = viewModel(
         factory = AddHabitViewModelFactory(
             (LocalContext.current.applicationContext as SixtyDaysApplication).habitRepository
@@ -36,6 +38,10 @@ fun AddHabitRoute(
                     onSaved = onSaved
                 )
             }
-        }
+        },
+
+        onTitleClick = onTitleClick,
+        onSettingsClick = onSettingsClick
     )
 }
+

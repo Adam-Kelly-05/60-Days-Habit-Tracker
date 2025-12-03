@@ -4,12 +4,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.a60days.SixtyDaysApplication
-import com.example.a60days.data.Habit
 
 @Composable
 fun EditHabitRoute(
     habitId: Int,
     onDone: () -> Unit,
+    onTitleClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     viewModel: EditHabitViewModel = viewModel(
         factory = EditHabitViewModelFactory(
             (LocalContext.current.applicationContext as SixtyDaysApplication).habitRepository,
@@ -25,7 +26,8 @@ fun EditHabitRoute(
             viewModel.updateHabit(name, description, total, completed)
             onDone()
         },
-        onBack = onDone
+        onBack = onTitleClick,
+        onSettings = onSettingsClick
     )
-
 }
+

@@ -4,16 +4,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a60days.data.Habit
+import com.example.a60days.ui.reusableComponents.SixtyDaysTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditHabitScreen(
     habit: Habit?,
     onSave: (String, String, Int, Int) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onSettings: () -> Unit = {}
 ) {
     if (habit == null) {
         Text("Loading…")
@@ -27,17 +30,28 @@ fun EditHabitScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Edit Habit") }
+            SixtyDaysTopBar(
+                onTitleClick = onBack,
+                onSettingsClick = onSettings
             )
         }
     ) { padding ->
-
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
         ) {
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Edit Habit",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
                 value = name,
@@ -94,7 +108,7 @@ fun EditHabitScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewEditHabitScreen() {
+fun Preview() {
     EditHabitScreen(
         habit = Habit(
             id = 1,
@@ -102,6 +116,6 @@ fun PreviewEditHabitScreen() {
             description = "Read for 30 minutes every day.",
             totalDays = 60,
             completedDays = 15
-        ), onSave = { _, _, _, _ -> }, onBack = {}
+        ), onSave = { _, _, _, _ -> }, onBack = {}, onSettings = {}
     )
 }
