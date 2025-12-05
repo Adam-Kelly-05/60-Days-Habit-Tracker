@@ -95,8 +95,18 @@ fun SixtyDaysApp() {
                 )
             }
 
-        composable("settings") {
-            // SettingsScreen(onBack = { navController.popBackStack() })
+            composable("settings") {
+                SettingsScreen(
+                    darkTheme = darkTheme,
+                    onThemeChange = {
+                        darkTheme = it
+                        prefs.edit { putBoolean("dark_theme", it) }
+                    },
+                    onTitleClick = { navController.navigate("home") },
+                    onSettingsClick = { navController.navigate("settings") }
+                )
+            }
+
         }
     }
 }
