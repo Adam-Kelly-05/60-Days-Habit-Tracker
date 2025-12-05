@@ -40,6 +40,7 @@ fun HomeScreen(
     onHabitClick: (Int) -> Unit,
     onSettings: () -> Unit
 ) {
+    // This seporated completed and ongoing habits be checking between completed being >= total days
     val ongoingHabits = habits.filter { it.completedDays < it.totalDays }
     val completedHabits = habits.filter { it.completedDays >= it.totalDays }
 
@@ -144,7 +145,7 @@ fun HomeScreen(
 @Composable
 fun HabitCard(habit: Habit, onClick: () -> Unit) {
     val progress = if (habit.totalDays > 0) {
-        (habit.completedDays.toFloat() / habit.totalDays).coerceIn(0f, 1f)
+        (habit.completedDays.toFloat() / habit.totalDays).coerceIn(0f, 1f) // Make total days not be negitive
     } else {
         0f
     }
@@ -164,7 +165,7 @@ fun HabitCard(habit: Habit, onClick: () -> Unit) {
 
             Spacer(Modifier.height(12.dp))
 
-            LinearProgressIndicator(
+            LinearProgressIndicator( // Fill the bar depending on the completed days
                 progress = { progress },
                 modifier = Modifier.fillMaxWidth(),
                 trackColor = Color.White

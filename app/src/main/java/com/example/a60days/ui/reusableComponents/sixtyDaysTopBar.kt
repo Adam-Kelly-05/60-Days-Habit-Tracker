@@ -29,7 +29,7 @@ fun SixtyDaysTopBar(
             actionIconContentColor = Color.White
         ),
         actions = {
-            IconButton(onClick = onSettingsClick) {
+            IconButton(onClick = onSettingsClick) { // Go to settings screen and load settings icon
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = "Settings"

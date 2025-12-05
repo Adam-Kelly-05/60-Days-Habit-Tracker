@@ -95,7 +95,7 @@ fun AddHabitScreen(
 
             Spacer(Modifier.height(12.dp))
 
-            Button(
+            Button( // Call camera activity
                 onClick = onTakePhoto,
                 modifier = Modifier.fillMaxWidth()
             ) {

@@ -23,15 +23,13 @@ fun AddHabitRoute(
 ) {
     val context = LocalContext.current
 
-    // UI states
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var totalDays by remember { mutableStateOf("") }
 
-    // NEW: store captured photo
     var photoUri by remember { mutableStateOf<String?>(null) }
 
-    // NEW: launcher for CameraActivity (returns URI)
+    // This calls the camera activity
     val cameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -47,13 +45,12 @@ fun AddHabitRoute(
         name = name,
         description = description,
         totalDays = totalDays,
-        photoUri = photoUri,   // NEW
+        photoUri = photoUri,
 
         onNameChange = { name = it },
         onDescriptionChange = { description = it },
         onTotalDaysChange = { totalDays = it },
 
-        // NEW: camera button
         onTakePhoto = {
             val intent = Intent(context, CameraActivity::class.java)
             cameraLauncher.launch(intent)
@@ -61,12 +58,12 @@ fun AddHabitRoute(
 
         onSave = {
             if (name.isNotEmpty()) {
-                val totalDaysValue = totalDays.toIntOrNull()?.coerceAtLeast(1) ?: 1
+                val totalDaysValue = totalDays.toIntOrNull()?.coerceAtLeast(1) ?: 1 // Can not be less than 1
                 viewModel.saveHabit(
                     name = name,
                     description = description,
                     totalDays = totalDaysValue,
-                    photoUri = photoUri,   // NEW
+                    photoUri = photoUri,
                     onSaved = onSaved
                 )
             }

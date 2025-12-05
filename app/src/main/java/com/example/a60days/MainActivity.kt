@@ -39,25 +39,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    SixtyDaysApp()
-}
-
 @Composable
 fun SixtyDaysApp() {
+    // Handles Navigation
     val navController = rememberNavController()
 
     val context = LocalContext.current
     val prefs = remember { context.getSharedPreferences("settings", MODE_PRIVATE) }
 
+    // Save dark theme preference
     var darkTheme by remember {
         mutableStateOf(prefs.getBoolean("dark_theme", false))
     }
 
     SixtyDaysTheme(darkTheme = darkTheme) {
 
+        //Start with welcome screen
         NavHost(navController = navController, startDestination = "welcome") {
 
             composable("welcome") {
@@ -66,6 +63,7 @@ fun SixtyDaysApp() {
                 )
             }
 
+            // Continue to home screen
             composable("home") {
                 HomeRoute(
                     onAddHabit = { navController.navigate("add") },
@@ -74,6 +72,7 @@ fun SixtyDaysApp() {
                 )
             }
 
+            // Then other screens can be clicked
             composable("add") {
                 AddHabitRoute(
                     onSaved = { navController.popBackStack() },
@@ -82,6 +81,7 @@ fun SixtyDaysApp() {
                 )
             }
 
+            // OnTitleClick handles going back to home screen when banner is clicked
             composable(
                 route = "edit/{habitId}",
                 arguments = listOf(navArgument("habitId") { type = NavType.IntType })
@@ -109,4 +109,10 @@ fun SixtyDaysApp() {
 
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    SixtyDaysApp()
 }

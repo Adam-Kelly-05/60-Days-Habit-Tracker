@@ -52,7 +52,7 @@ fun WelcomeScreen(onContinue: () -> Unit) {
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = onContinue) {
+            Button(onClick = onContinue) { // Continue to home screen
                 Text(
                     "Start Your Journey",
                     fontWeight = FontWeight.Bold

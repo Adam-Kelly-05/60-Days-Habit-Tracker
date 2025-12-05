@@ -45,7 +45,7 @@ fun SettingsScreen(
             ) {
                 Text("Dark Mode", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.weight(1f))
-                Switch(
+                Switch( // Switch for dark mode, with colour changed to match my custom theme
                     checked = darkTheme,
                     onCheckedChange = onThemeChange,
                     colors = SwitchDefaults.colors(

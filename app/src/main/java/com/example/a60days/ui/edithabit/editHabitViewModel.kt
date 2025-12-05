@@ -38,11 +38,21 @@ class EditHabitViewModel(
             description = description,
             totalDays = totalDays,
             completedDays = completedDays,
-            photoUri = photoUri   // NEW
-        )
+            photoUri = photoUri
+        ) // Get the old habit, add to new changes values, then update with the same ID
 
         viewModelScope.launch {
             repository.updateHabit(updated)
         }
     }
+
+    fun deleteHabit(onDeleted: () -> Unit) {
+        viewModelScope.launch {
+            habit.value?.let {
+                repository.deleteHabit(it)
+                onDeleted()
+            }
+        }
+    }
+
 }

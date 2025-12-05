@@ -42,7 +42,6 @@ fun EditHabitRoute(
         }
     }
 
-    // Camera launcher
     val cameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -71,7 +70,12 @@ fun EditHabitRoute(
             )
             onDone()
         },
-        onBack = onTitleClick,
-        onSettings = onSettingsClick
+        onDelete = {
+            viewModel.deleteHabit {
+                onDone()
+            }
+        },
+        onTitleClick = onTitleClick,
+        onSettingsClick = onSettingsClick
     )
 }
