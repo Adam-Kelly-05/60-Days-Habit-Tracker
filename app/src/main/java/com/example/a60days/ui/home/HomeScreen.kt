@@ -143,6 +143,12 @@ fun HomeScreen(
 
 @Composable
 fun HabitCard(habit: Habit, onClick: () -> Unit) {
+    val progress = if (habit.totalDays > 0) {
+        (habit.completedDays.toFloat() / habit.totalDays).coerceIn(0f, 1f)
+    } else {
+        0f
+    }
+
     Card(
         modifier = Modifier
             .padding(vertical = 8.dp)
@@ -159,7 +165,7 @@ fun HabitCard(habit: Habit, onClick: () -> Unit) {
             Spacer(Modifier.height(12.dp))
 
             LinearProgressIndicator(
-                progress = { habit.completedDays.toFloat() / habit.totalDays.toFloat() },
+                progress = { progress },
                 modifier = Modifier.fillMaxWidth(),
                 trackColor = Color.White
             )

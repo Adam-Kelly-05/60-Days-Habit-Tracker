@@ -1,22 +1,29 @@
 package com.example.a60days.ui.edithabit
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a60days.data.Habit
-import com.example.a60days.ui.reusableComponents.SixtyDaysTopBar
+import coil.compose.rememberAsyncImagePainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditHabitScreen(
     habit: Habit?,
-    onSave: (String, String, Int, Int) -> Unit,
+    photoUri: String?,
+    onTakePhoto: () -> Unit,
+    onSave: (String, String, Int, Int, String?) -> Unit,
     onBack: () -> Unit,
-    onSettings: () -> Unit = {}
+    onSettings: () -> Unit
 ) {
     if (habit == null) {
         Text("Loading…")
@@ -30,33 +37,48 @@ fun EditHabitScreen(
 
     Scaffold(
         topBar = {
-            SixtyDaysTopBar(
-                onTitleClick = onBack,
-                onSettingsClick = onSettings
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "60 Days",
+                        style = MaterialTheme.typography.headlineLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable { onBack() }
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White,
+                    actionIconContentColor = Color.White
+                ),
+                actions = {
+                    IconButton(onClick = onSettings) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
+                    }
+                }
             )
         }
     ) { padding ->
+
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(horizontal = 16.dp)
+                .padding(16.dp)
         ) {
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "Edit Habit",
                 style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(Modifier.height(16.dp))
 
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name") },
+                label = { Text("Habit Name") },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -71,21 +93,41 @@ fun EditHabitScreen(
 
             Spacer(Modifier.height(12.dp))
 
-            OutlinedTextField(
-                value = totalDays,
-                onValueChange = { totalDays = it },
-                label = { Text("Total Days") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                OutlinedTextField(
+                    value = totalDays,
+                    onValueChange = { totalDays = it },
+                    label = { Text("Total Days") },
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(Modifier.width(12.dp))
+                OutlinedTextField(
+                    value = completedDays,
+                    onValueChange = { completedDays = it },
+                    label = { Text("Completed") },
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(20.dp))
 
-            OutlinedTextField(
-                value = completedDays,
-                onValueChange = { completedDays = it },
-                label = { Text("Completed Days") },
+            Button(
+                onClick = onTakePhoto,
                 modifier = Modifier.fillMaxWidth()
-            )
+            ) {
+                Text("Take Photo")
+            }
+
+            if (photoUri != null) {
+                Spacer(Modifier.height(12.dp))
+                Image(
+                    painter = rememberAsyncImagePainter(photoUri),
+                    contentDescription = "Habit Photo",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                )
+            }
 
             Spacer(Modifier.height(20.dp))
 
@@ -94,28 +136,16 @@ fun EditHabitScreen(
                     onSave(
                         name,
                         description,
-                        totalDays.toInt(),
-                        completedDays.toInt()
+                        totalDays.toIntOrNull() ?: 0,
+                        completedDays.toIntOrNull() ?: 0,
+                        photoUri
                     )
                 },
-                enabled = name.isNotEmpty()
+                enabled = name.isNotEmpty(),
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Save")
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    EditHabitScreen(
-        habit = Habit(
-            id = 1,
-            name = "Read a book",
-            description = "Read for 30 minutes every day.",
-            totalDays = 60,
-            completedDays = 15
-        ), onSave = { _, _, _, _ -> }, onBack = {}, onSettings = {}
-    )
 }

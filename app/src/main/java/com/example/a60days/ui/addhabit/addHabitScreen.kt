@@ -1,13 +1,18 @@
 package com.example.a60days.ui.addhabit
 
+import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,12 +29,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.a60days.ui.reusableComponents.SixtyDaysTopBar
+import coil.compose.rememberAsyncImagePainter
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,13 +46,15 @@ fun AddHabitScreen(
     name: String,
     description: String,
     totalDays: String,
+    photoUri: String?,
     onNameChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
     onTotalDaysChange: (String) -> Unit,
+    onTakePhoto: () -> Unit,
     onSave: () -> Unit,
     onTitleClick: () -> Unit,
     onSettingsClick: () -> Unit
-) {
+){
     Scaffold(
         topBar = {
             SixtyDaysTopBar(
@@ -84,6 +95,35 @@ fun AddHabitScreen(
 
             Spacer(Modifier.height(12.dp))
 
+            Button(
+                onClick = onTakePhoto,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Take Photo")
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            photoUri?.let {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Card(
+                        elevation = CardDefaults.cardElevation(4.dp)
+                    ) {
+                        Image(
+                            painter = rememberAsyncImagePainter(model = Uri.parse(it)),
+                            contentDescription = "Attached photo",
+                            modifier = Modifier.fillMaxWidth().height(200.dp),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
             OutlinedTextField(
                 value = totalDays,
                 onValueChange = onTotalDaysChange,
@@ -119,6 +159,8 @@ fun Preview() {
         onTotalDaysChange = { totalDays = it },
         onSave = {},
         onTitleClick = {},
-        onSettingsClick = {}
+        onSettingsClick = {},
+        photoUri = null,
+        onTakePhoto = {}
     )
 }

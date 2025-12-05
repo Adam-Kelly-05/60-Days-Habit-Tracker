@@ -9,6 +9,7 @@ data class Habit(
     val id: Int = 0,
     val name: String,
     val description: String,
+    val photoUri: String? = null,
     val totalDays: Int,
     val completedDays: Int
 )

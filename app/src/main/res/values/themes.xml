@@ -2,4 +2,5 @@
 <resources>
 
     <style name="Theme._60Days" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme._60Days.Camera" parent="Theme.AppCompat.Light.NoActionBar" />
 </resources>
