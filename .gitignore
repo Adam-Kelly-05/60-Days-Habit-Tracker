@@ -1,15 +1,63 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local configuration files
 local.properties
+*.keystore
+*.jks
+
+# Log files
+*.log
+
+# Android Studio / IntelliJ IDEA
+.idea/
+!.idea/codeStyles/
+!.idea/runConfigurations/
+!.idea/icon.png
+
+# Android artifacts
+captures/
+output.json
+
+# Generated files
+generated/
+bin/
+gen/
+
+# ProGuard / R8
+proguard/
+
+# Jetpack Compose previews
+*.compose-cache/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Kotlin incremental compilation
+.kotlin/
+
+# Emulator / AVD related files
+*.avd/
+*.avd/*.lock
+
+# Test result files
+*/androidTestResultsUserPreferences.xml
+*/deviceManager.xml
+*/Project_Default.xml
+*.xml~
+
+# Gradle Wrapper
+gradle/wrapper/gradle-wrapper.properties
+!gradle-wrapper.jar
+
+# Signing keys (never commit!)
+signing.properties
+keystore.properties
+
+# APK / AAB outputs
+*.apk
+*.ap_  
+*.aab
