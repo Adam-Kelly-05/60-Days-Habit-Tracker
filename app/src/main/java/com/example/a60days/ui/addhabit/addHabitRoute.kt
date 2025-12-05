@@ -57,11 +57,11 @@ fun AddHabitRoute(
         },
 
         onSave = {
-            if (name.isNotEmpty()) {
+            if (name.isNotBlank() && description.isNotBlank()) {
                 val totalDaysValue = totalDays.toIntOrNull()?.coerceAtLeast(1) ?: 1 // Can not be less than 1
                 viewModel.saveHabit(
-                    name = name,
-                    description = description,
+                    name = name.trim(),
+                    description = description.trim(),
                     totalDays = totalDaysValue,
                     photoUri = photoUri,
                     onSaved = onSaved

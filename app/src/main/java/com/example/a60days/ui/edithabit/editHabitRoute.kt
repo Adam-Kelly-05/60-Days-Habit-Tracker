@@ -61,14 +61,18 @@ fun EditHabitRoute(
             cameraLauncher.launch(intent)
         },
         onSave = { n, d, t, c, newPhotoUri ->
-            viewModel.updateHabit(
-                name = n,
-                description = d,
-                totalDays = t,
-                completedDays = c,
-                photoUri = newPhotoUri
-            )
-            onDone()
+            val totalDaysSafe = t.coerceAtLeast(1)
+            val completedDaysSafe = c.coerceIn(0, totalDaysSafe)
+            if (n.isNotBlank() && d.isNotBlank()) {
+                viewModel.updateHabit(
+                    name = n.trim(),
+                    description = d.trim(),
+                    totalDays = totalDaysSafe,
+                    completedDays = completedDaysSafe,
+                    photoUri = newPhotoUri
+                )
+                onDone()
+            }
         },
         onDelete = {
             viewModel.deleteHabit {

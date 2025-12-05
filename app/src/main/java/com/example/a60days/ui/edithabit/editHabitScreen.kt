@@ -131,6 +131,8 @@ fun EditHabitScreen(
 
             Spacer(Modifier.height(20.dp))
 
+            val canSave = name.isNotBlank() && description.isNotBlank()
+
             Button(
                 onClick = {
                     onSave(
@@ -141,7 +143,7 @@ fun EditHabitScreen(
                         photoUri
                     )
                 },
-                enabled = name.isNotEmpty(),
+                enabled = canSave,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Save")
