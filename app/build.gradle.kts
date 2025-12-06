@@ -81,4 +81,5 @@ dependencies {
 
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 }
